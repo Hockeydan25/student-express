@@ -9,8 +9,9 @@
 
   </div>
 </template>
-
-<script>
+<!--template from our sign in code no changes writen
+script we added code to  mounted to be used -->
+<script>  //start main script frame work
 
 import NewStudentForm from './components/NewStudentForm.vue'
 import StudentTable from './components/StudentTable.vue'
@@ -30,43 +31,52 @@ export default {
       mostRecentStudent: {}
     }
   },
+  mounted() {
+    this.updateStudents()
+    //loading all student to make the request to API 
+  },
+  //lots happening with these methods this is weid updata adds changing modifying is setup. Now deleted too.
   methods: {
+    updateStudents(){
+      this.$student_api.getAllStudents().then( students => {
+        this.students = students
+      }) 
+      .catch( () => alert('Unable to fetch student list'))
+    },
     newStudentAdded(student) {
-      this.students.push(student)
-      this.students.sort(function(s1, s2) {
-        return s1.name.toLowerCase() < s2.name.toLowerCase() ? -1 : 1
+      this.$student_api.addStudent(student).then( () => {
+        this.updateStudents() //this method is called and then update will do work for the call to get for new list of students
+      }) 
+      .catch( err => {
+        let userErrMessage = err.response.data.join(',')
+        alert('Error adding student\n' + userErrMessage)
       })
     },
     studentArrivedOrLeft(student, present){
       //find student in array of students
-      //update present attribute
-      let updateStudent = this.students.find( function(s) { //method find useses a function called s to look for matching student in the (added)array.
-        if (s.name === student.name && s.starID === student.starID) {
-          //this is the student to update
-          return true
-        }
-
+      //update present attribute 
+      student.present = present
+      this.$student_api.updateStudent(student).then( () => {
+        this.mostRecentStudent = student
+        this.updateStudents() //this method is called and then update will do work for the call to get for new list of students
       })
-        //updates student list
-      if (updateStudent) {
-        updateStudent.present = present
-        this.mostRecentStudent = updateStudent
-      }
+      .catch( () => alert('Unable to update student list'))  
     },
-    studentDeleted(student) { //rename stduentDeleted
-      //filter is used instead of a splice to remove. returns a new array of all studnets for whom the func returns true. 
-      this.students = this.students.filter( function(s) {
-        if(s != student) {
-          return true
-        }
-      })//clear welcom/goobye
-
-      this.mostRecentStudent = {} //empty object.
-    }
+    studentDeleted() { //rename stduentDeleted//link to 
+      //returns a new array of all studnets for whom the func returns true. 
+      this.$student_api.deleteStudent(student.id).then( () => {
+        this.updateStudents() //calls method for an update to rows displayed.
+        this.mostRecentStudent = {} //empty to reset row, clear welcom/goodbye message. 
+      })
+      .catch( () => alert('Unable to delete student list'))
+    } 
   }
 }
-</script>
+//END main script frame work
+</script> 
 <!--vue.cli will apply and fetch. -->
+<!--CSS Casscade Style Sheet code, using bootstarp -->
 <style>
 @import "https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css";
-</style>
+</style> <!-- end style and end of code page-->
+

@@ -50,10 +50,10 @@ export default {
               this.errors.push('StarID is required')
             } 
             
-            if (this.errors.length == 0){                // if there are no eerrors 
+            if (this.errors.length == 0){                // if there are no eerrors .
                 let student = {name: this.newStudentName, starID: this.newStarID, present: false}
             
-                //emit message to parent with new student.
+                //emit message to parent with new student. pass along the data.
                 this.$emit('student-added', student)
                 this.newStudentName = ''
                 this.newStarID = ''
