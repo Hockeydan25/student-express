@@ -10,9 +10,12 @@ let Student = db.Student
 let router = express.Router()
 //returning a promise, get Fetches all the students.  use the method updatestudent in app.vue
 router.get('/students', function(req, res, next){
-    Student.findAll( {order:['present','name']} ).then( students => {
+    Student.findAll( {order:[
+        'present',
+        db.Sequelize.fn('lower', db.Sequelize.col('name'))
+    ]} ).then( students => {
         return res.json(students) //a type of request 
-    }).catch( err => next(err) ) //again refer to err message from server.js (500).
+    })//.catch( err => next(err) ) //again refer to err message from server.js (500).
 })
 //another promise, post creates ..always have to send something data or message. 200 messages are sucessful code 201 is specific.
 //students use the method newStudentadded in app.vue.
@@ -49,7 +52,7 @@ router.patch('/students/:id', function( req, res, next) {
                       
         })//user can fix
         .catch( err => { //bad request message ,//modification violates constainst? no name or same starid.
-            if (err instanceof db.Sequelize.VaildationError) {
+            if ( err instanceof db.Sequelize.VaildationError ) {
                 let messages = err.errors.map( e => e.message)
                 return res.status(400).json(messages)
             }else {
@@ -66,7 +69,7 @@ router.delete('/students/:id', function(req, res, next) {
         if (rowsDeleted == 1){
             return res.send('okay')
         }else {
-            return res.status(404).json('not found') //can send in json form/ text.
+            return res.status(404).json('Not Found') //can send in json form/ text.
         }
     })
     .catch( err => next(err) )// expect the unexpected errors

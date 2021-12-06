@@ -1,5 +1,7 @@
 <template>
  <div id="app">
+
+   <h1>Student Sign In</h1>
     <!--method calls and listening or listners for messages or events changes -->
     <new-student-form v-on:student-added="newStudentAdded"></new-student-form>
     <student-table v-bind:students="students" 
@@ -40,16 +42,14 @@ export default {
     updateStudents(){
       this.$student_api.getAllStudents().then( students => {
         this.students = students
-      }) 
-      .catch( () => alert('Unable to fetch student list'))
+      }).catch( () => alert('Unable to fetch student list'))
     },
     newStudentAdded(student) {
       this.$student_api.addStudent(student).then( () => {
         this.updateStudents() //this method is called and then update will do work for the call to get for new list of students
-      }) 
-      .catch( err => {
-        let userErrMessage = err.response.data.join(',')
-        alert('Error adding student\n' + userErrMessage)
+      }).catch( err => {
+        let msg = err.response.data.join(',')
+        alert('Error adding student\n' + msg)
       })
     },
     studentArrivedOrLeft(student, present){
@@ -59,16 +59,14 @@ export default {
       this.$student_api.updateStudent(student).then( () => {
         this.mostRecentStudent = student
         this.updateStudents() //this method is called and then update will do work for the call to get for new list of students
-      })
-      .catch( () => alert('Unable to update student list'))  
+      }).catch( () => alert('Unable to update student list'))  
     },
     studentDeleted(student) { //rename stduentDeleted//link to 
       //returns a new array of all studnets for whom the func returns true. 
       this.$student_api.deleteStudent(student.id).then( () => {
         this.updateStudents() //calls method for an update to rows displayed.
         this.mostRecentStudent = {} //empty to reset row, clear welcom/goodbye message. 
-      })
-      .catch( () => alert('Unable to delete student list'))
+      }).catch( () => alert('Unable to delete student list'))
     } 
   }
 }

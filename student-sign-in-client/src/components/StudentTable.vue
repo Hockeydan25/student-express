@@ -63,6 +63,16 @@ export default {
 </script>
 
 <style>
-
+#student-table {
+  max-height: 500px;
+  overflow: scroll;
+}
+.present-true {
+  color: gray;
+  font-style: italic;
+}
+.present-false {
+  font-weight: bold;
+}
 
 </style>
