@@ -1,0 +1,6 @@
+# not needed to be uploaded to git, large file size.
+node_modules
+student.sqlite
+# .DS_Store
+# nohup.out
+
