@@ -62,7 +62,7 @@ export default {
       })
       .catch( () => alert('Unable to update student list'))  
     },
-    studentDeleted() { //rename stduentDeleted//link to 
+    studentDeleted(student) { //rename stduentDeleted//link to 
       //returns a new array of all studnets for whom the func returns true. 
       this.$student_api.deleteStudent(student.id).then( () => {
         this.updateStudents() //calls method for an update to rows displayed.

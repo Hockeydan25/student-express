@@ -40,13 +40,13 @@ import StudentRow from '@/components/StudentRow.vue'
 export default {
     name: 'StudentTable',
     components: { StudentRow },
-    emits: ['student-arrived-or-left'],
+    emits: ['student-arrived-or-left', 'delete-student' ],
     props: {
         students: Array
     },
-    data() {                   //data needed to edit box
+    data() {                   //data needed to edit box.
         return {
-            editTable: false  //false will set as unchecked
+            editTable: false  //false will set as unchecked present.
         }
     },
     methods: {

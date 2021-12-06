@@ -21,6 +21,7 @@ export default {
          student: Object,
          edit: Boolean
     },
+    emits: ['student-arrived-or-left','delete-student' ], 
      methods: {
          arrivedOrLeft(student, present) {
             //will tell/emit it's parent/studentTable.studentTable will tells its parent/App.vue to delete student. 
