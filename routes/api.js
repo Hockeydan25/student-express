@@ -24,7 +24,7 @@ router.post('/students', function(req, res, next) {
         return res.status(201).send('okay created')
     }).catch( err => {
         //handle user errors tells user they can fix this type error.
-        if ( err instanceof db.Sequelize.VaildationError ) {
+        if ( err instanceof db.Sequelize.ValidationError ) {
             //respond with a 404 bad request err code, include err msg. to tell users.
             let messages = err.errors.map( e => e.message)
             return res.status(400).json(messages)
@@ -37,9 +37,9 @@ router.post('/students', function(req, res, next) {
 update a student use the method updateStudents in app.vue.*/
 router.patch('/students/:id', function( req, res, next) {
 
-    let studentID =  req.params.id
-    let updatedStudent = req.body
-    Student.update( updatedStudent, { where: { id: studentID } } )//basic sql update message to the row for StudentID.
+    let studentID =  req.params.id  //studentID will reflect requested id number what ever that is could be 99 or 3.
+    let updatedStudent = req.body  //not sure where this body is used.
+    Student.update( updatedStudent, { where: { id: studentID } } )//basic sql where to: update message to the row for StudentID.
         .then( (rowsModified) => {
             let numberOfRowsModified = rowsModified[0]//the number of rows affected.
             if (numberOfRowsModified == 1) {   ////exactly one row .
@@ -52,7 +52,7 @@ router.patch('/students/:id', function( req, res, next) {
                       
         })//user can fix
         .catch( err => { //bad request message ,//modification violates constainst? no name or same starid.
-            if ( err instanceof db.Sequelize.VaildationError ) {
+            if ( err instanceof db.Sequelize.ValidationError ) {
                 let messages = err.errors.map( e => e.message)
                 return res.status(400).json(messages)
             }else {
