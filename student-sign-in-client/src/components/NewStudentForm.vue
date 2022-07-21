@@ -8,7 +8,7 @@
         </div>
 
         <div class="card add-student m-2 p-2"> <!--start card-title Div container-->
-            <h4 class="card-title">Add new student</h4>
+            <h4 class="card-title">Add new Guest</h4>
 
             <div class="form-group"> <!--start name Div container-->
                 <label for="name">Name</label>
@@ -17,7 +17,7 @@
             </div> <!--end name Div container-->
         
             <div class="form-group"> <!--start star-id Div container-->
-                <label for="starID">Star ID</label>
+                <label for="starID">RSVP - Yes or No</label>
                     <!--  v-model newStarID -->
                 <input id="starID" class="form-control" v-model.trim="newStarID"> <!--v-modle used here-->
             </div> <!--end star-id Div container-->
